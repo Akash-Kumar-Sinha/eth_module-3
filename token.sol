@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity 0.8.20;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -25,6 +25,13 @@ contract AksToken is ERC20, Ownable {
         require(msg.value > 0, "Invalid purchase input");
         uint256 amount = msg.value * 1000;
         _mint(msg.sender, amount);
+        return true;
+    }
+
+     function transfer(address _address, uint256 amount) public override returns (bool) {
+        require(_address != address(0), "Invalid address");
+        require(amount > 0, "Invalid transfer amount");
+        _transfer(_msgSender(), _address, amount);
         return true;
     }
 }
